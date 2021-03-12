@@ -1,0 +1,17 @@
+{
+  "name": "svg-whiteboard-master",
+  "version": "1.0.0",
+  "description": "Nothing fancy here. Just a few functions for generating SVG elements that appear to be *drawn by hand* in marker, including lines, curves, arrows, circles, polygons, dots, and text (in my own handwriting). The colors and other styling are meant to imitate the look of drawing on a whiteboard. Right now the functions are very similar to those in [svg-napkin](https://github.com/TripleDataArts/svg-napkin), but I expect them to diverge a bit as they're developed.",
+  "main": "canvas2svg.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "socket.io": "^4.0.0"
+  }
+}

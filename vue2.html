@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>square 2 </title>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.9/vue.js'
+    integrity='sha512-o9SZrtqlGkpa7EF+dDrNjEdRFFYhymlrBzDKpolHNolxsyx0IcXAbEm9i1e8QpoiMgEdKZVtY8XiK1t8i6jVDA=='
+    crossorigin='anonymous'></script>
+  <style>
+    html {
+      height: 100vh;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    div {
+      font-size: 0;
+      padding: 3px;
+      position: relative;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .arrow {
+      background-color: red;
+      height: 20px;
+      width: 20px;
+      border-radius: 50%;
+      position: absolute;
+      right: -10px;
+      bottom: -10px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="square" @click="clickHandler" :style="{height:boxSize,width:boxSize}">
+    <svg :width="size" :height="size" @mousewheel="zoom">
+      <rect :width="size" :height="size" style="fill:rgb(0,0,255);" />
+    </svg>
+    <span class="arrow" @mousedown="downHandler" v-show="arrow"></span>
+  </div>
+
+
+  <script>
+
+    new Vue({
+      el: '#square',
+      data() {
+        return {
+          size: 100,
+          arrow: false,
+          boxSize: 100,
+          mouse: {
+            x: 0,
+            y: 0,
+            down: false,
+          },
+          currentY: 0,
+          distance: 0
+        }
+      },
+      methods: {
+        zoom(e) {
+          if (e.wheelDelta >= 120) {
+            this.size += 10;
+          } else if (e.wheelDelta <= 120) {
+            this.size -= 10;
+          }
+        },
+        clickHandler(e) {
+          this.$el.style.border = "solid 5px red";
+          this.arrow = true;
+        },
+        downHandler(e) {
+          this.mouse.down = true;
+          this.currentY = e.pageY;
+          console.log(this.mouse.down);
+        },
+        // moveHandler(e) {
+        //   let x = parseInt(window.getComputedStyle(this.$el).width)
+        //   if (this.mouse.down) {
+        //     let y = e.pageY - this.currentY
+        //     this.$el.style.height = `${x + y}px`
+        //     this.$el.style.width = `${x + y}px`
+        //   }
+        // },
+      },
+      mounted() {
+        window.onmouseup = () => {
+          this.mouse.down = false;
+          this.arrow = false;
+          this.$el.style.border = "none";
+          this.size = this.boxSize;
+        }
+        window.onmousemove = (e) => {
+          if (this.mouse.down) {
+            let x = parseInt(window.getComputedStyle(this.$el).width);
+            let y = e.pageY - this.currentY;
+            this.$el.style.height = `${x + y}px`
+            this.$el.style.width = `${x + y}px`
+            this.boxSize = x+y-6
+          }
+        }
+      },
+      watch: {
+        size() {
+        }
+      }
+    });
+
+  </script>
+</body>
+
+</html>

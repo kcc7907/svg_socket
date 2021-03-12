@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>square</title>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.9/vue.js'
+    integrity='sha512-o9SZrtqlGkpa7EF+dDrNjEdRFFYhymlrBzDKpolHNolxsyx0IcXAbEm9i1e8QpoiMgEdKZVtY8XiK1t8i6jVDA=='
+    crossorigin='anonymous'></script>
+  <style>
+    html {
+      height: 100vh;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+
+<body style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+  <svg :width="size" :height="size" id="square" @mousewheel="zoom">
+    <rect :width="size" :height="size" style="fill:rgb(0,0,255);" />
+  </svg>
+
+  <script src="/socket.io/socket.io.js"></script>
+
+  <script>
+    const socket = io();
+    socket.on('get', data => {
+      console.log(data);
+    });
+    new Vue({
+      el: '#square',
+      data() {
+        return {
+          size: 100,
+        }
+      },
+      methods: {
+        zoom(e) {
+          if (e.wheelDelta >= 120) {
+            this.size += 10
+          } else if (e.wheelDelta <= 120) {
+            this.size -= 10
+          }
+        },
+      },
+      mounted() {
+        // socket.on('get', data => {
+        //   this.size = data;
+        //   console.log('size - ' + this.size);
+        //   console.log(data);
+        // });
+        socket.on('time', function (timeString) {
+          console.log(timeString);
+        });
+      },
+      watch: {
+        size() {
+          socket.emit('sendObj', this.size);
+        }
+      }
+    });
+
+  </script>
+</body>
+
+</html>

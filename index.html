@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Hello world</title>
+</head>
+<script src="/socket.io/socket.io.js"></script>
+
+
+
+<body>Hello</body>
+
+<script>
+  let obj = {
+    a:1,
+    b:2
+  }
+  const socket = io();
+  socket.on('time', function (timeString) {
+    console.log(timeString);
+  });
+  socket.on('get', data=> console.log(data));
+  socket.emit('sendObj', obj);
+</script>
+
+</html>
