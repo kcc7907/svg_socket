@@ -25,11 +25,15 @@
   <svg :width="size" :height="size" id="square" @mousewheel="zoom">
     <rect :width="size" :height="size" style="fill:rgb(0,0,255);" />
   </svg>
-
+  <!-- <script src="./vue.js"></script> -->
   <script src="/socket.io/socket.io.js"></script>
 
   <script>
-    const socket = io();
+    // import  { io }  from 'socket.io-client'
+    // import {io} from './node_modules/socket.io/dist/client.js'
+
+    // socket = io.connect('http://localhost:9999');
+
     socket.on('get', data => {
       console.log(data);
     });
@@ -50,14 +54,16 @@
         },
       },
       mounted() {
-        // socket.on('get', data => {
-        //   this.size = data;
-        //   console.log('size - ' + this.size);
-        //   console.log(data);
-        // });
+        socket.on('get', data => {
+          this.size = data;
+          // console.log('size - ' + this.size);
+          // console.log(data);
+        });
+        const socket = io();
         socket.on('time', function (timeString) {
           console.log(timeString);
         });
+
       },
       watch: {
         size() {
@@ -67,6 +73,7 @@
     });
 
   </script>
+  <!-- <script src="./text.js"></script> -->
 </body>
 
 </html>
